@@ -1,0 +1,11 @@
+# Schema for the configuration files of the Spotify API module.
+spotify_api.settings:
+  type: config_object
+  label: 'Spotify API settings'
+  mapping:
+    client_id:
+      type: string
+      label: 'Spotify API client ID'
+    client_secret:
+      type: string
+      label: 'Spotify API client secret'

@@ -1,0 +1,7 @@
+access spotify_api content:
+  title: 'View Spotify API content'
+  description: 'View Spotify detail pages (artist, album, etc.).'
+administer spotify_api configuration:
+  title: 'Administer Spotify API configuration'
+  description: 'Configure the base API URL, client ID, and client secret for this application.'
+  restrict access: true

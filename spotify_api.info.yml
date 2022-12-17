@@ -1,0 +1,7 @@
+name: Spotify API
+type: module
+description: Gets information from the Spotify API.
+package: Spotify
+core_version_requirement: ^9 || ^10
+dependencies:
+  - block

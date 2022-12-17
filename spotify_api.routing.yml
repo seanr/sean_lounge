@@ -1,0 +1,15 @@
+spotify_api.example:
+  path: '/spotify/artist/{artist}'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\spotify_api\Controller\SpotifyArtistController::build'
+  requirements:
+    _permission: 'access spotify_api content'
+
+spotify_api.settings_form:
+  path: '/admin/config/services/spotify-api'
+  defaults:
+    _title: 'Spotify API settings'
+    _form: 'Drupal\spotify_api\Form\SettingsForm'
+  requirements:
+    _permission: 'administer spotify_api configuration'
