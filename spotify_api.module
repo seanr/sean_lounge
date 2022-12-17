@@ -4,3 +4,20 @@
  * @file
  * Primary module hooks for Spotify API module.
  */
+
+function spotify_api_theme() {
+  return [
+    'spotify_api_artists' => [
+      'variables' => [
+        'header' => NULL,
+        'artists' => [],
+        'no_results' => NULL,
+      ],
+    ],
+    'spotify_api_artist' => [
+      'variables' => [
+        'artist' => [],
+      ],
+    ],
+  ];
+}

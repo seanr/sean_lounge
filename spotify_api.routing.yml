@@ -1,4 +1,4 @@
-spotify_api.example:
+spotify_api.artist:
   path: '/spotify/artist/{artist}'
   defaults:
     _title: 'Example'
