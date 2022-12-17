@@ -32,7 +32,7 @@ class ArtistsBlock extends BlockBase {
       }
     }
 
-    $artist_data = $spotify_api->getArtists('artists/', ['query' => ['ids' => implode(',', $artists)]]);
+    $artist_data = $spotify_api->getData('artists', ['query' => ['ids' => implode(',', $artists)]]);
 
     $build['content'] = [
       '#markup' => $this->t('It works!'),
