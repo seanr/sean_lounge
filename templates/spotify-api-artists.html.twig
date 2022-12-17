@@ -1,0 +1,16 @@
+<div class="spotify-api-artists">
+  <div class="header">{{ header }}</div>
+  {% if artists %}
+    <div class="artists">
+      {% for artist in artists %}
+        <div class="artist">
+          {{ artist }}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="no-results">
+      {{ no_results }}
+    </div>
+  {% endif %}
+</div>
