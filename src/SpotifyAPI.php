@@ -55,11 +55,8 @@ class SpotifyAPI {
         $response = $error->getResponse();
         // Get the info returned from the remote server.
         $response_info = $response->getBody()->getContents();
-        // Using FormattableMarkup allows for the use of <pre/> tags, giving a more readable log item.
-        $message = new FormattableMarkup('API connection error. Error details are as follows:<pre>@response</pre>', ['@response' => print_r(json_decode($response_info), TRUE)]);
         // Log the error
-        $variables = Error::decodeException($error);
-        \Drupal::logger('spotify_api remote')->error('%type: @message in %function (line %line of %file).', $variables);
+        \Drupal::logger('spotify_api remote')->error('API connection error. Error details are as follows:<br><pre>@response</pre>', ['@response' => print_r(json_decode($response_info), TRUE)]);
         return false;
       }
       // A non-Guzzle error occurred. The type of exception is unknown, so a generic log item is created.
@@ -105,9 +102,7 @@ class SpotifyAPI {
     catch (GuzzleException $error) {
       $response = $error->getResponse();
       $response_info = $response->getBody()->getContents();
-      $message = new FormattableMarkup('API connection error. Error details are as follows:<pre>@response</pre>', ['@response' => print_r(json_decode($response_info), TRUE)]);
-      $variables = Error::decodeException($error);
-      \Drupal::logger('spotify_api remote')->error('%type: @message in %function (line %line of %file).', $variables);
+      \Drupal::logger('spotify_api remote')->error('API connection error. Error details are as follows:<br><pre>@response</pre>', ['@response' => print_r(json_decode($response_info), TRUE)]);
       return false;
     }
     catch (\Exception $error) {
