@@ -2,6 +2,12 @@
 
 This module is a demo of how to use the Spotify API to get information about artists and albums.
 
+## Prerequisites
+
+You will need to have a Spotify account and create a Spotify application to get a client ID and secret. See https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app
+
+You do not need to add any redirect URIs to your application unless you intend to authenticate as your Spotify user for purposes of displaying your own data (this is not yet supported).
+
 ## Installation
 
 1. Navigate to /admin/config/services/spotify-api and enter your Spotify API credentials.
