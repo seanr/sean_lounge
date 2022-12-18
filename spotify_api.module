@@ -10,13 +10,15 @@ function spotify_api_theme() {
     'spotify_api_artists' => [
       'variables' => [
         'header' => NULL,
-        'artists' => [],
+        'artists' => NULL,
         'no_results' => NULL,
       ],
     ],
     'spotify_api_artist' => [
       'variables' => [
-        'artist' => [],
+        'name' => NULL,
+        'image' => NULL,
+        'genres' => NULL,
       ],
     ],
   ];

@@ -1,7 +1,7 @@
-<div class="spotify-api-artists">
-  {{ name }}
-  {{ image }}
-  {{ popularity }}
-  {{ genres }}
-  {{ href }}
+<div class="spotify-api-artist">
+  <h2><a href="{{ link }}" target="_blank">{{ name }}</a></h2>
+  <div class="artist-image">
+    <img src="{{ image_url }}" width="{{ image_width }}" alt="{{ name }}" />
+  </div>
+  <div class="artist-genres">{{ genres|join(', ') }}</div>
 </div>

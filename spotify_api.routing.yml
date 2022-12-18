@@ -1,8 +1,8 @@
 spotify_api.artist:
   path: '/spotify/artist/{artist}'
   defaults:
-    _title: 'Example'
-    _controller: '\Drupal\spotify_api\Controller\SpotifyArtistController::build'
+    _title: 'Artist Details'
+    _controller: '\Drupal\spotify_api\Controller\ArtistController::build'
   requirements:
     _permission: 'access spotify_api content'
 

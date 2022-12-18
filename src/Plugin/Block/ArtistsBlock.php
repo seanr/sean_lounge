@@ -30,7 +30,7 @@ class ArtistsBlock extends BlockBase {
 
     // Formatted text could contain an empty <p> tag.
     if (!empty($this->configuration['header']) && !empty(strip_tags($this->configuration['header']['value']))) {
-      $build['header'] = [
+      $build['#header'] = [
         '#type' => 'processed_text',
         '#text' => $this->configuration['header']['value'],
         '#format' => $this->configuration['header']['format'],
@@ -66,18 +66,13 @@ class ArtistsBlock extends BlockBase {
 
       // If we have items, build the list.
       if ($num_rows) {
-        $build['artists'] = [
-          '#theme' => 'item_list',
-          '#items' => $items,
-        ];
+        $build['#artists'] = $items;
       }
     }
 
     if (!$artist_data || !$num_rows) {
       // Display no results text.
-      $build['no_results'] = [
-        '#markup' => $this->t('No artists found.'),
-      ];
+      $build['#no_results'] = $this->t('No artists found.');
     }
 
     return $build;
