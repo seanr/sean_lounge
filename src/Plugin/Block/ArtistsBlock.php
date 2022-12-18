@@ -30,7 +30,7 @@ class ArtistsBlock extends BlockBase {
 
     // Formatted text could contain an empty <p> tag.
     if (!empty($this->configuration['header']) && !empty(strip_tags($this->configuration['header']['value']))) {
-      $build['#header'] = [
+      $build['header'] = [
         '#type' => 'processed_text',
         '#text' => $this->configuration['header']['value'],
         '#format' => $this->configuration['header']['format'],
@@ -40,10 +40,10 @@ class ArtistsBlock extends BlockBase {
     // We have a set limit of 20 artists.
     for ($i = 1; $i <= 20; $i++) {
       if (isset($config['artist_' . $i]) && !empty($config['artist_' . $i])) {
-        $artisst[] = $config['artist_' . $i];
+        $artists[] = $config['artist_' . $i];
       }
     }
-    $artist_data = $spotify_api->getData('artists', ['query' => ['ids' => implode(',', $artists)]]);
+    $artist_data = $spotify_api->getData('artists', ['ids' => implode(',', $artists)]);
 
     if ($artist_data) {
       $items = [];
@@ -55,24 +55,30 @@ class ArtistsBlock extends BlockBase {
 
         // Check for permission to view artist details page.
         if ($user->hasPermission('access spotify_api content')) {
-          $items[] = Link::fromTextAndUrl($artist->name, Url::fromRoute('spotify_api.artist', ['artist' => $artist->id]))
-            ->toString();
+          $items[] = [
+            '#type' => 'item',
+            '#markup' => Link::fromTextAndUrl($artist->name, Url::fromRoute('spotify_api.artist', ['artist' => $artist->id]))
+            ->toString()
+          ];
         }
         else {
-          $items[] = $artist->name;
+          $items[] = [
+            '#type' => 'item',
+            '#markup' => $artist->name
+          ];
         }
         $num_rows = TRUE;
       }
 
       // If we have items, build the list.
       if ($num_rows) {
-        $build['#artists'] = $items;
+        $build['artists'] = $items;
       }
     }
 
     if (!$artist_data || !$num_rows) {
       // Display no results text.
-      $build['#no_results'] = $this->t('No artists found.');
+      $build['no_results'] = $this->t('No artists found.');
     }
 
     return $build;

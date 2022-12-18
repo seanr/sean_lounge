@@ -6,13 +6,10 @@ use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Utility\Error;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\Uri;
+use GuzzleHttp\RequestOptions;
 
 class SpotifyAPI {
-
-  const HEADERS = [
-    'Accept' => 'application/json',
-    'Content-Type' => 'application/json',
-  ];
 
   protected $client;
   protected $accessToken;
@@ -38,14 +35,17 @@ class SpotifyAPI {
           'POST',
           'https://accounts.spotify.com/api/token',
           [
-            'headers' => static::HEADERS,
+            'headers' => [
+              'Accept' => 'application/json',
+              'Content-Type' => 'application/x-www-form-urlencoded',
+              'Authorization' => 'Basic ' . base64_encode($config->get('client_id') . ':' . $config->get('client_secret')),
+            ],
             'form_params' => [
-              'client_id' => $config->get('client_id'),
-              'client_secret' => $config->get('client_secret'),
               'grant_type' => 'client_credentials',
             ],
           ]
         );
+
         $json = $response->getBody()->getContents();
         $this->accessToken = json_decode($json)->access_token;
       }
@@ -56,7 +56,7 @@ class SpotifyAPI {
         // Get the info returned from the remote server.
         $response_info = $response->getBody()->getContents();
         // Log the error
-        \Drupal::logger('spotify_api remote')->error('API connection error. Error details are as follows:<br><pre>@response</pre>', ['@response' => print_r(json_decode($response_info), TRUE)]);
+        \Drupal::logger('spotify_api remote')->error('API error in getAccessToken:<br><pre>@response</pre>', ['@response' => print_r(json_decode($response_info), TRUE)]);
         return false;
       }
       // A non-Guzzle error occurred. The type of exception is unknown, so a generic log item is created.
@@ -64,10 +64,8 @@ class SpotifyAPI {
         \Drupal::logger('spotify_api')->error($error->getMessage());
         return false;
       }
-
-      $json = $response->getBody()->getContents();
-      $this->accessToken = json_decode($json)->access_token;
     }
+
     return $this->accessToken;
   }
 
@@ -83,26 +81,30 @@ class SpotifyAPI {
    * @return false|mixed
    *   The decoded json response from the API, or false on failure.
    */
-  public function getData($endpoint, $options = []) {
+  public function getData($endpoint, $query = []) {
     try {
-      $options = [
-        'headers' => static::HEADERS + [
-          'Authorization' => 'Bearer ' . $this->getAccessToken()
-        ],
-      ] + $options;
-      $options = [
-          'headers' => static::HEADERS,
-        ] + $options;
+      $headers = [
+        'Accept' => 'application/json',
+        'Content-Type' => 'application/json',
+        'Authorization' => 'Bearer ' . $this->getAccessToken()
+      ];
+      $url = new Uri('https://api.spotify.com/v1/' . $endpoint);
+      if (!empty($query)) {
+        $url .= '?' . http_build_query($query);
+      }
       $response = $this->client->request(
         'GET',
-        'https://api.spotify.com/v1/' . $endpoint,
-        $options
+        $url,
+        [
+          'headers' => $headers,
+          'query' => $query,
+        ]
       );
     }
     catch (GuzzleException $error) {
       $response = $error->getResponse();
       $response_info = $response->getBody()->getContents();
-      \Drupal::logger('spotify_api remote')->error('API connection error. Error details are as follows:<br><pre>@response</pre>', ['@response' => print_r(json_decode($response_info), TRUE)]);
+      \Drupal::logger('spotify_api remote')->error('API error in getData:<br><pre>@response</pre>', ['@response' => print_r(json_decode($response_info), TRUE)]);
       return false;
     }
     catch (\Exception $error) {

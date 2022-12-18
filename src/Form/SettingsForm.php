@@ -36,7 +36,7 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('The client ID for the Spotify API. Create an app at https://developer.spotify.com/dashboard/applications to get one.'),
     ];
     $form['client_secret'] = [
-      '#type' => 'password',
+      '#type' => 'textfield',
       '#title' => $this->t('Spotify API client secret'),
       '#default_value' => $this->config('spotify_api.settings')->get('client_secret'),
       '#description' => $this->t('The client secret for the Spotify API.'),

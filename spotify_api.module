@@ -16,8 +16,10 @@ function spotify_api_theme() {
     ],
     'spotify_api_artist' => [
       'variables' => [
+        'link' => NULL,
         'name' => NULL,
-        'image' => NULL,
+        'image_url' => NULL,
+        'image_width' => NULL,
         'genres' => NULL,
       ],
     ],

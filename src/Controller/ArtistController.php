@@ -15,13 +15,12 @@ class ArtistController extends ControllerBase {
    */
   public function build($artist) {
     $spotify_api = new SpotifyApi(\Drupal::httpClient());
-    $artist_data = $spotify_api->getData('artist', ['query' => ['id' => $artist]]);
+    $artist_data = $spotify_api->getData('artists/' . $artist);
 
     $build = [
       '#theme' => 'spotify_api_artist',
-      '#artist' => $artist_data,
-      'link' => $artist_data->external_urls->spotify,
-      'name' => $artist_data->name,
+      '#link' => $artist_data->external_urls->spotify,
+      '#name' => $artist_data->name,
       '#image_url' => $artist_data->images[0]->url,
       '#image_width' => $artist_data->images[0]->width,
       '#genres' => $artist_data->genres,
