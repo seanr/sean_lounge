@@ -128,7 +128,7 @@ class ArtistsBlock extends BlockBase {
     $values = $form_state->getValues();
 
     // Save the header text.
-    $this->configuration['body'] = $values['body'];
+    $this->configuration['header'] = $values['header'];
 
     // Save the values for each artist.
     for ($i = 1; $i <= 20; $i++) {

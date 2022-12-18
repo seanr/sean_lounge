@@ -5,6 +5,8 @@ namespace Drupal\spotify_api\Form;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 
 /**
  * Configure Spotify API settings for this site.
@@ -33,7 +35,7 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Spotify API client ID'),
       '#default_value' => $this->config('spotify_api.settings')->get('client_id'),
-      '#description' => $this->t('The client ID for the Spotify API. Create an app at https://developer.spotify.com/dashboard/applications to get one.'),
+      '#description' => $this->t('The client ID for the Spotify API. Create an app at the %link to get one.', ['%link' => Link::fromTextAndUrl($this->t('Spotify Developer Dashboard'), Url::fromUri('https://developer.spotify.com/dashboard/applications'))->toString()]),
     ];
     $form['client_secret'] = [
       '#type' => 'textfield',
